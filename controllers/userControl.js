@@ -48,6 +48,12 @@ async function Registration(){
         const data = await res.json()
         //console.log(data)
         alert(data.msg)
+        if (res.status == 200){
+            nameField.value = ''
+            emailField.value = ''
+            passfield.value = ''
+            confirmpassField.value = ''
+        }
     }
     catch(err){
         console.log('Hiba történt: ', err)
