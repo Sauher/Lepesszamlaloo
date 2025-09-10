@@ -8,49 +8,22 @@ async function Registration(){
     let nameField = document.getElementById('nameField')
     let emailField = document.getElementById('emailField')
     let confirmpassField = document.getElementById('confirmpassField')
-    let alertWrong = document.getElementById("alertWrong")
-    let alertSuccess = document.getElementById('alertSuccess')
-
     
     if(!emailRegExp.test(emailField.value)){
-        alertWrong.classList.remove("hide")
-        alertWrong.innerText="A megadott email cím nem megfelelő formátumú"
-
-        setTimeout(()=>{
-            alertWrong.innerHTML= ''
-            alertWrong.classList.add("hide")
-        },3000)
+        ShowAlert("A megadott email cím nem megfelelő formátumú", "alert-danger")
         return
     }
 
     if(nameField.value == "" || passfield.value == "" || emailField.value == "" || confirmpassField.value == ""){
-        alertWrong.classList.remove("hide")
-        alertWrong.innerText="Nem adtál meg minden adatot!"
-
-        setTimeout(()=>{
-            alertWrong.innerHTML= ''
-            alertWrong.classList.add("hide")
-        },3000)
+        aShowAlert("Nem adtál meg minden adatot!", "alert-danger")
         return
     }
     if(passfield.value != confirmpassField.value){
-        alertWrong.classList.remove("hide")
-        alertWrong.innerText="A megadott jelszavak nem egyeznek!"
-
-        setTimeout(()=>{
-            alertWrong.innerHTML= ''
-            alertWrong.classList.add("hide")
-        },3000)
+        ShowAlert("A megadott jelszavak nem egyeznek!", "alert-danger")
         return
     }
     if(!passRegExp.test(passfield.value)){
-        alertWrong.classList.remove("hide")
-        alertWrong.innerText="A megadott jelszó nem elég biztonságos!"
-
-        setTimeout(()=>{
-            alertWrong.innerHTML= ''
-            alertWrong.classList.add("hide")
-        },3000)
+        ShowAlert("A megadott jelszó nem elég biztonságos!", "alert-danger")
         return
     }
 
@@ -75,26 +48,14 @@ async function Registration(){
         const data = await res.json()
         //console.log(data)
         if(String(data.msg) == "bademail"){
-            alertWrong.classList.remove("hide")
-            alertWrong.innerText="Ez az email cím már regisztrált!"
-
-        setTimeout(()=>{
-            alertWrong.innerHTML= ''
-            alertWrong.classList.add("hide")
-        },3000)
+            ShowAlert("Ez az email cím már regisztrált", "alert-danger")
         }
         if (res.status == 200){
             nameField.value = ''
             emailField.value = ''
             passfield.value = ''
             confirmpassField.value = ''
-            alertSuccess.classList.remove("hide")
-            alertSuccess.innerText="Sikeres regisztráció!"
-
-        setTimeout(()=>{
-            alertSuccess.innerHTML= ''
-            alertSuccess.classList.add("hide")
-        },3000)
+            ShowAlert("Sikeres regisztráció!", "alert-success")
         }
     }
     catch(err){
@@ -113,3 +74,16 @@ function getProfile(){}
 function UpdateProfile(){}
 
 function ChangePass(){}
+
+function ShowAlert(message, alerttype){
+        let alertReg = document.getElementById("alertReg")
+        alertReg.classList.remove("hide")
+        alertReg.classList.add(alerttype)
+        alertReg.innerText= message
+
+        setTimeout(()=>{
+            alertReg.classList.remove(alerttype)
+            alertReg.innerHTML= ''
+            alertReg.classList.add("hide")
+        },3000)
+}
