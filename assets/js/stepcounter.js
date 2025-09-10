@@ -1,4 +1,5 @@
 let theme = 'light';
+let loggedUser = null
 let main = document.querySelector('main');
 
 const AppTitle = "Lépésszámláló App"
@@ -8,6 +9,9 @@ const Company = "Bajai SZC Türr István Technikum"
 let Apptitle = document.getElementById("Title")
 let author = document.getElementById("Author")
 let company = document.getElementById("Company")
+
+let loggedInMenu = document.getElementById("loggedInMenu")
+let loggedOutMenu = document.getElementById("loggedOutMenu")
 
 Apptitle.innerHTML = AppTitle
 author.innerHTML = Author
@@ -60,5 +64,22 @@ async function Render(view){
  main.innerHTML =await (await fetch(`views/${view}.html`)).text()
 }
 
+async function getLoggedUser(){
+    if(sessionStorage.getItem('loggedUser')){
+        loggedUser = JSON.parse(sessionStorage.getItem('loggedUser'))
+        loggedInMenu.classList.remove("hide")
+        loggedOutMenu.classList.add("hide")
+        await Render('stepdata')
+    }
+    else{
+        loggedUser = null
+        loggedOutMenu.classList.remove("hide")
+        loggedInMenu.classList.add("hide")
+        await Render('login')
+    }
+    return loggedUser
+}
+
 loadTheme()
-Render('login')
+getLoggedUser()
+

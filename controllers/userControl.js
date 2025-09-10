@@ -1,5 +1,6 @@
 const passRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
 const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const API = 'http://localhost:3000'
 
 
 async function Registration(){
@@ -8,20 +9,22 @@ async function Registration(){
     let nameField = document.getElementById('nameField')
     let emailField = document.getElementById('emailField')
     let confirmpassField = document.getElementById('confirmpassField')
-    
+
+    if(nameField.value == "" || passfield.value == "" || emailField.value == "" || confirmpassField.value == ""){
+        ShowAlert("Nem adtál meg minden adatot!", "alert-danger")
+        return
+    }
+
     if(!emailRegExp.test(emailField.value)){
         ShowAlert("A megadott email cím nem megfelelő formátumú", "alert-danger")
         return
     }
 
-    if(nameField.value == "" || passfield.value == "" || emailField.value == "" || confirmpassField.value == ""){
-        aShowAlert("Nem adtál meg minden adatot!", "alert-danger")
-        return
-    }
     if(passfield.value != confirmpassField.value){
         ShowAlert("A megadott jelszavak nem egyeznek!", "alert-danger")
         return
     }
+
     if(!passRegExp.test(passfield.value)){
         ShowAlert("A megadott jelszó nem elég biztonságos!", "alert-danger")
         return
@@ -31,7 +34,7 @@ async function Registration(){
 
 
 
-        const res = await fetch('http://localhost:3000/users', {
+        const res = await fetch(`${API}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,11 +68,64 @@ async function Registration(){
     
 }
 
-function Login(){}
+async function Login(){
+    let emailField = document.getElementById('emailField')
+    let passfield = document.getElementById('passField')
 
-function Logout(){}
+    if(passfield.value == "" || emailField.value == ""){
+        ShowAlert("Nem adtál meg minden adatot!", "alert-danger")
+        return
+    }
+    let user = {}
+    try{
+        const res = await fetch(`${API}/users/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+    
+            },
+            body: JSON.stringify({
+                email: emailField.value,
+                password: passfield.value
+            })
+        })
+        ShowAlert("Sikeres belépés!","alert-success")
+        user = await res.json()
 
-function getProfile(){}
+        if(user.id != undefined){
+            loggedUser = user;
+
+        }
+        
+        
+        if(!loggedUser){
+            ShowAlert("Hibás belépési adatok!", "alert-danger")
+            return
+        }
+       
+        sessionStorage.setItem('loggedUser', JSON.stringify(loggedUser))
+        await Render("stepdata")
+        getLoggedUser()
+       
+    }
+    catch(err){
+        console.log("Hiba!", err)
+    }
+    
+}
+
+function Logout(){
+    sessionStorage.removeItem('loggedUser')
+    getLoggedUser();
+    Render("login")
+}
+
+async function getProfile(){
+    let emailField = document.getElementById('emailField')
+    let passfield = document.getElementById('passField')
+    const res = await fetch(`${API}/users/:id`)
+
+}
 
 function UpdateProfile(){}
 
@@ -87,3 +143,4 @@ function ShowAlert(message, alerttype){
             alertReg.classList.add("hide")
         },3000)
 }
+
