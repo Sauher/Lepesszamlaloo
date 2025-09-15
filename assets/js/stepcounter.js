@@ -62,6 +62,14 @@ function setThemeBtn(theme){
 
 async function Render(view){
  main.innerHTML =await (await fetch(`views/${view}.html`)).text()
+ switch(view){
+    case 'profile': 
+    getProfile()
+    break
+    case 'stepdata':
+    setDate()
+    break
+ }
 }
 
 async function getLoggedUser(){
