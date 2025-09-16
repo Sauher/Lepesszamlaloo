@@ -68,6 +68,7 @@ async function Render(view){
     break
     case 'stepdata':
     setDate()
+    FillTable()
     break
  }
 }
