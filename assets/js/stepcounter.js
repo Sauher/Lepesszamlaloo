@@ -70,6 +70,9 @@ async function Render(view){
     setDate()
     FillTable()
     break
+    case 'statistics':
+    await getChartData()
+    initChart()
  }
 }
 
