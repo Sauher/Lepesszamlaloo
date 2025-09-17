@@ -73,6 +73,11 @@ async function Render(view){
     case 'statistics':
     await getChartData()
     initChart()
+    break
+    case 'calendar':
+        await getCalendarData()
+        initCalendar()
+        break
  }
 }
 

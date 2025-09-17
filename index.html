@@ -48,6 +48,9 @@
                         <a class="nav-link" onclick="Render('profile')" >Profilom</a>
                       </li>
                       <li class="nav-item">
+                        <a class="nav-link" onclick="Render('calendar')" >Naptár</a>
+                      </li>
+                      <li class="nav-item">
                         <a class="nav-link" onclick="Logout()" href="#">Kilépés</a>
                       </li>
                   </div>
@@ -68,13 +71,14 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/stepcounter.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js "></script>
  
 
     <!--Controllers-->
     <script src="/controllers/userControl.js"></script>
     <script src="/controllers/stepCountControl.js"></script>
     <script src="/controllers/chartControl.js"></script>
-    
+    <script src="/controllers/calendarControl.js"></script>
 
 </body>
 </html>
