@@ -141,12 +141,7 @@ async function Update(){
                     if (res.status == 200){
                         dateField.value = ''
                         stepcountField.value = ''
-<<<<<<< HEAD
                         ShowAlert("Sikeres adatfrissítés!", "alert-success")
-=======
-                        ShowAlert("Sikeres adatfelvitel!", "alert-success")
-                        Cancel()
->>>>>>> 1af271292a4379ec6208eb918fb35a1d3a2f1182
                         await FillTable()
                     }
                     else{
